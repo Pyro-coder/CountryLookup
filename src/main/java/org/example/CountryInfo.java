@@ -1,5 +1,10 @@
 package org.example;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,17 +13,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import javax.swing.*;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import org.apache.batik.swing.JSVGCanvas;
+import java.nio.charset.StandardCharsets;
 
 public class CountryInfo extends JFrame implements ActionListener {
-    private JTextField countryField;
-    private JButton searchButton;
-    private JPanel resultArea;
+    private final JTextField countryField;
+    private final JButton searchButton;
+    private final JPanel resultArea;
 
     public CountryInfo() {
         super("Country Info");
@@ -55,7 +55,7 @@ public class CountryInfo extends JFrame implements ActionListener {
             String countryName = countryField.getText();
 
             try {
-                String encodedCountryName = URLEncoder.encode(countryName, "UTF-8");
+                String encodedCountryName = URLEncoder.encode(countryName, StandardCharsets.UTF_8);
                 encodedCountryName = encodedCountryName.replace("+", "%20");
 
                 URL url = new URL("https://restcountries.com/v2/name/" + encodedCountryName);
@@ -80,12 +80,11 @@ public class CountryInfo extends JFrame implements ActionListener {
                         String currency = country.get("currencies").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
                         String language = country.get("languages").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
 
-                        StringBuilder countryInfoText = new StringBuilder();
-                        countryInfoText.append("Name: ").append(name)
-                                .append("\nCurrency: ").append(currency)
-                                .append("\nLanguage: ").append(language);
+                        String countryInfoText = "Name: " + name +
+                                "\nCurrency: " + currency +
+                                "\nLanguage: " + language;
 
-                        JTextArea countryInfoArea = new JTextArea(countryInfoText.toString());
+                        JTextArea countryInfoArea = new JTextArea(countryInfoText);
                         countryInfoArea.setEditable(false);
 
                         ImageIcon flagIcon = new ImageIcon(new URL(flag));
