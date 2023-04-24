@@ -23,7 +23,7 @@ public class CountryInfo extends JFrame implements ActionListener {
     public CountryInfo() {
         super("Country Info");
 
-        setSize(600, 700);
+        setSize(500, 700);
 
         countryField = new JTextField(20);
         searchButton = new JButton("Search");
