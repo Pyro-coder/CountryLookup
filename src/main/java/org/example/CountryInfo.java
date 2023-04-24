@@ -23,7 +23,7 @@ public class CountryInfo extends JFrame implements ActionListener {
     public CountryInfo() {
         super("Country Info");
 
-        setSize(500, 500);
+        setSize(600, 700);
 
         countryField = new JTextField(20);
         searchButton = new JButton("Search");
@@ -71,9 +71,6 @@ public class CountryInfo extends JFrame implements ActionListener {
                 if (countriesArray.size() > 0) {
                     resultArea.removeAll();
                     for (int i = 0; i < countriesArray.size(); i++) {
-                        JPanel countryPanel = new JPanel();
-                        countryPanel.setLayout(new BorderLayout());
-
                         JsonObject country = countriesArray.get(i).getAsJsonObject();
                         String name = country.get("name").getAsString();
                         String flag = country.get("flags").getAsJsonObject().get("png").getAsString();
@@ -81,13 +78,10 @@ public class CountryInfo extends JFrame implements ActionListener {
                         String currency = country.get("currencies").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
                         String language = country.get("languages").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
 
-                        String countryInfoText = "Name: " + name +
-                                "\nCapital: " + capital +
-                                "\nCurrency: " + currency +
-                                "\nLanguage: " + language;
-
-                        JTextArea countryInfoArea = new JTextArea(countryInfoText);
-                        countryInfoArea.setEditable(false);
+                        String countryInfoText = "<html><body><b>Name:</b> " + name +
+                                "<br><b>Capital:</b> " + capital +
+                                "<br><b>Currency:</b> " + currency +
+                                "<br><b>Language:</b> " + language + "</body></html>";
 
                         ImageIcon flagIcon = new ImageIcon(new URL(flag));
                         int flagWidth = 470;
@@ -97,9 +91,20 @@ public class CountryInfo extends JFrame implements ActionListener {
                         flagIcon = new ImageIcon(scaledFlagImage);
 
                         JLabel flagLabel = new JLabel(flagIcon);
+                        flagLabel.setAlignmentY(Component.TOP_ALIGNMENT);
 
-                        countryPanel.add(countryInfoArea, BorderLayout.NORTH);
-                        countryPanel.add(flagLabel, BorderLayout.CENTER);
+                        JPanel countryPanel = new JPanel();
+                        countryPanel.setLayout(new BoxLayout(countryPanel, BoxLayout.Y_AXIS));
+                        countryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                        JPanel flagPanel = new JPanel();
+                        flagPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+                        flagPanel.add(flagLabel);
+                        countryPanel.add(flagPanel);
+                        countryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+                        JLabel countryInfoLabel = new JLabel(countryInfoText);
+                        countryInfoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                        countryPanel.add(countryInfoLabel);
+                        countryPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
                         resultArea.add(countryPanel);
                     }
@@ -108,6 +113,7 @@ public class CountryInfo extends JFrame implements ActionListener {
                 } else {
                     resultArea.removeAll();
                     JLabel noCountryLabel = new JLabel("No country found with the name '" + countryName + "'");
+                    noCountryLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                     resultArea.add(noCountryLabel);
                     resultArea.revalidate();
                     resultArea.repaint();
@@ -117,5 +123,6 @@ public class CountryInfo extends JFrame implements ActionListener {
             }
         }
     }
+
 
 }
