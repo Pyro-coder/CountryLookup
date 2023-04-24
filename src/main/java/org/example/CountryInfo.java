@@ -77,10 +77,12 @@ public class CountryInfo extends JFrame implements ActionListener {
                         JsonObject country = countriesArray.get(i).getAsJsonObject();
                         String name = country.get("name").getAsString();
                         String flag = country.get("flags").getAsJsonObject().get("png").getAsString();
+                        String capital = country.has("capital") ? country.get("capital").getAsString() : "Not found";
                         String currency = country.get("currencies").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
                         String language = country.get("languages").getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString();
 
                         String countryInfoText = "Name: " + name +
+                                "\nCapital: " + capital +
                                 "\nCurrency: " + currency +
                                 "\nLanguage: " + language;
 
@@ -115,4 +117,5 @@ public class CountryInfo extends JFrame implements ActionListener {
             }
         }
     }
+
 }
