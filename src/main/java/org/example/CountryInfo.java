@@ -23,7 +23,7 @@ public class CountryInfo extends JFrame implements ActionListener {
     public CountryInfo() {
         super("Country Info");
 
-        setSize(500, 700);
+        setSize(500, 500);
 
         countryField = new JTextField(20);
         searchButton = new JButton("Search");
@@ -83,6 +83,7 @@ public class CountryInfo extends JFrame implements ActionListener {
                                 "<br><b>Currency:</b> " + currency +
                                 "<br><b>Language:</b> " + language + "</body></html>";
 
+                        // get the flag and resize it
                         ImageIcon flagIcon = new ImageIcon(new URL(flag));
                         int flagWidth = 470;
                         double aspectRatio = (double) flagIcon.getIconHeight() / flagIcon.getIconWidth();
@@ -110,16 +111,18 @@ public class CountryInfo extends JFrame implements ActionListener {
                     }
                     resultArea.revalidate();
                     resultArea.repaint();
-                } else {
-                    resultArea.removeAll();
-                    JLabel noCountryLabel = new JLabel("No country found with the name '" + countryName + "'");
-                    noCountryLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                    resultArea.add(noCountryLabel);
-                    resultArea.revalidate();
-                    resultArea.repaint();
                 }
             } catch (Exception ex) {
+                //this prints into the console that the country wasn't found
                 ex.printStackTrace();
+
+                // this makes a  user-friendly output for the no country found dialogue
+                resultArea.removeAll();
+                JLabel noCountryLabel = new JLabel("No country found with the name '" + countryName + "'");
+                noCountryLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                resultArea.add(noCountryLabel);
+                resultArea.revalidate();
+                resultArea.repaint();
             }
         }
     }
