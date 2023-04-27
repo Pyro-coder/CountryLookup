@@ -113,8 +113,8 @@ public class CountryInfo extends JFrame implements ActionListener {
                     resultArea.repaint();
                 }
             } catch (Exception ex) {
-                //this prints into the console that the country wasn't found
-                ex.printStackTrace();
+                //this prints into the console that the country wasn't found. It shows the kind of error, but has no efect on code, and should only be used for debugging
+                // ex.printStackTrace();
 
                 // this makes a  user-friendly output for the no country found dialogue
                 resultArea.removeAll();
